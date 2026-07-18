@@ -17,7 +17,6 @@
   --border: rgba(0,0,0,0.08);
   --brand: #FE2C55;
   --brand-light: #FFF0F3;
-  --accent: #FF6B35;
   --tag-bg: #F2F2F7;
   --tag-text: #636366;
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
@@ -55,7 +54,6 @@ body {
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
-  user-select: none;
 }
 
 /* ── Header ── */
@@ -159,7 +157,6 @@ body {
   box-shadow: var(--shadow-sm);
   cursor: pointer;
   transition: transform 0.15s, box-shadow 0.15s;
-  position: relative;
   display: flex;
   gap: 12px;
   align-items: flex-start;
@@ -236,263 +233,79 @@ body {
   gap: 4px;
 }
 
-.video-delete {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 28px;
-  height: 28px;
-  border: none;
-  background: none;
-  color: var(--text-tertiary);
-  cursor: pointer;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  opacity: 0;
-  transition: opacity 0.15s, background 0.15s;
-}
-
-.video-card:hover .video-delete,
-.video-card:active .video-delete { opacity: 1; }
-
-.video-delete:active { background: rgba(254,44,85,0.1); color: var(--brand); }
-
-/* ── Empty state ── */
-.empty-state {
+/* ── Empty / Loading / Error ── */
+.state-message {
   text-align: center;
   padding: 60px 20px;
   color: var(--text-secondary);
 }
 
-.empty-state .icon {
-  font-size: 56px;
-  margin-bottom: 16px;
-  opacity: 0.6;
-}
+.state-message .icon { font-size: 56px; margin-bottom: 16px; opacity: 0.6; }
 
-.empty-state .title {
+.state-message .title {
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 8px;
   color: var(--text);
 }
 
-.empty-state .desc {
-  font-size: 14px;
-  line-height: 1.6;
-}
+.state-message .desc { font-size: 14px; line-height: 1.6; }
 
-/* ── FAB ── */
-.fab {
-  position: fixed;
-  bottom: 24px;
-  right: 20px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--brand);
-  color: #FFF;
-  border: none;
-  font-size: 28px;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(254,44,85,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 50;
-  transition: transform 0.2s, box-shadow 0.2s;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.fab:active {
-  transform: scale(0.9);
-  box-shadow: 0 2px 10px rgba(254,44,85,0.3);
-}
-
-/* ── Modal ── */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 200;
-  display: flex;
-  align-items: flex-end;
-  animation: fadeIn 0.2s;
-}
-
-.modal-overlay.closing { animation: fadeOut 0.2s forwards; }
-
-.modal-sheet {
+/* ── Skeleton ── */
+.skeleton-card {
   background: var(--surface);
-  border-radius: 20px 20px 0 0;
-  width: 100%;
-  max-height: 85vh;
-  overflow-y: auto;
-  padding: 8px 0 32px;
-  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
 }
 
-.modal-sheet.closing { animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-
-.modal-handle {
-  width: 36px;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--border);
-  margin: 0 auto 12px;
-}
-
-.modal-title {
-  font-size: 18px;
-  font-weight: 700;
-  padding: 0 20px 16px;
-  text-align: center;
-}
-
-.form-group {
-  padding: 0 20px;
-  margin-bottom: 16px;
-}
-
-.form-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 6px;
-  display: block;
-}
-
-.form-input,
-.form-textarea {
-  width: 100%;
-  border: 1.5px solid var(--border);
+.skeleton-thumb {
+  width: 64px; height: 64px;
   border-radius: var(--radius-sm);
-  padding: 12px 14px;
-  font-size: 16px;
-  font-family: var(--font);
-  color: var(--text);
-  background: var(--bg);
-  outline: none;
-  transition: border-color 0.2s;
+  background: var(--tag-bg);
+  flex-shrink: 0;
+  animation: shimmer 1.5s infinite;
 }
 
-.form-input:focus,
-.form-textarea:focus {
-  border-color: var(--brand);
+.skeleton-lines { flex: 1; }
+
+.skeleton-line {
+  height: 14px;
+  border-radius: 4px;
+  background: var(--tag-bg);
+  margin-bottom: 10px;
+  animation: shimmer 1.5s infinite;
 }
 
-.form-textarea {
-  resize: none;
-  height: 72px;
-  line-height: 1.5;
+.skeleton-line:first-child { width: 70%; }
+.skeleton-line:nth-child(2) { width: 50%; }
+.skeleton-line:last-child { width: 30%; margin-bottom: 0; }
+
+@keyframes shimmer {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
 }
 
-.form-hint {
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  padding: 24px 16px;
   font-size: 12px;
   color: var(--text-tertiary);
-  margin-top: 4px;
 }
 
-.tag-input-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 8px 10px;
-  background: var(--bg);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  min-height: 44px;
-  align-items: center;
-}
-
-.tag-input-wrap:focus-within {
-  border-color: var(--brand);
-}
-
-.tag-chip {
-  font-size: 12px;
-  font-weight: 500;
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
-  background: var(--brand-light);
+.footer a {
   color: var(--brand);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  white-space: nowrap;
-}
-
-.tag-chip .remove {
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 1;
-  opacity: 0.7;
-}
-
-.tag-chip .remove:active { opacity: 1; }
-
-.tag-chip-input {
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 14px;
-  font-family: var(--font);
-  color: var(--text);
-  flex: 1;
-  min-width: 80px;
-  padding: 4px 0;
-}
-
-.tag-chip-input::placeholder { color: var(--text-tertiary); }
-
-.btn-primary {
-  display: block;
-  width: calc(100% - 40px);
-  margin: 8px 20px 0;
-  height: 48px;
-  border: none;
-  border-radius: var(--radius-sm);
-  background: var(--brand);
-  color: #FFF;
-  font-size: 17px;
-  font-weight: 600;
-  font-family: var(--font);
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.btn-primary:active { opacity: 0.85; }
-.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-
-/* ── Toast ── */
-.toast {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--text);
-  color: var(--bg);
-  padding: 10px 20px;
-  border-radius: var(--radius-full);
-  font-size: 14px;
+  text-decoration: none;
   font-weight: 500;
-  font-family: var(--font);
-  z-index: 300;
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
 }
 
-.toast.show { opacity: 1; }
-
-/* ── Animations ── */
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-@keyframes slideDown { from { transform: translateY(0); } to { transform: translateY(100%); } }
+.footer a:active { opacity: 0.7; }
 
 /* ── Responsive ── */
 @media (min-width: 600px) {
@@ -502,7 +315,6 @@ body {
     border-left: 1px solid var(--border);
     border-right: 1px solid var(--border);
   }
-  .fab { right: calc(50% - 220px); }
 }
 </style>
 </head>
@@ -520,106 +332,56 @@ body {
 
 <!-- Stats -->
 <div class="stats-bar">
-  <span><span class="count" id="videoCount">0</span> 个视频</span>
+  <span><span class="count" id="videoCount">-</span> 个视频</span>
   <span id="filterHint"></span>
 </div>
 
 <!-- Video List -->
 <div class="video-list" id="videoList">
-  <div class="empty-state" id="emptyState">
-    <div class="icon">📋</div>
-    <div class="title">还没有收藏视频</div>
-    <div class="desc">
-      在抖音复制视频链接<br>
-      点击右下角 + 号添加到这里<br>
-      就可以搜索和快速跳转了
-    </div>
-  </div>
+  <!-- Skeleton loading -->
+  <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-lines"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
+  <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-lines"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
+  <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-lines"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
 </div>
 
-<!-- FAB -->
-<button class="fab" id="fabBtn" title="添加视频">+</button>
-
-<!-- Modal -->
-<div class="modal-overlay" id="modalOverlay" style="display:none;">
-  <div class="modal-sheet" id="modalSheet">
-    <div class="modal-handle"></div>
-    <div class="modal-title">添加做菜视频</div>
-
-    <div class="form-group">
-      <label class="form-label">视频链接</label>
-      <input class="form-input" id="videoUrl" type="url" placeholder="粘贴抖音分享链接 v.douyin.com/..." autocomplete="off">
-      <div class="form-hint">在抖音点「分享 → 复制链接」，粘贴到这里</div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">菜名 / 标题</label>
-      <input class="form-input" id="videoTitle" type="text" placeholder="例如：红烧肉、麻婆豆腐..." autocomplete="off">
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">标签</label>
-      <div class="tag-input-wrap" id="tagInputWrap">
-        <input class="tag-chip-input" id="tagInput" type="text" placeholder="输入标签后按回车添加" autocomplete="off">
-      </div>
-      <div class="form-hint">例如：川菜、快手菜、下饭、减脂</div>
-    </div>
-
-    <button class="btn-primary" id="saveBtn">保存</button>
-  </div>
+<!-- Footer -->
+<div class="footer">
+  📝 在 GitHub 上编辑 data.json 即可更新内容
 </div>
-
-<!-- Toast -->
-<div class="toast" id="toast"></div>
 
 <script>
 (function() {
-  const STORAGE_KEY = 'douyin_cookbook_videos';
+  const DATA_URL = 'data.json';
 
-  // ── State ──
   let videos = [];
-  let currentTags = [];
   let searchQuery = '';
 
-  // ── DOM refs ──
   const $ = (sel) => document.querySelector(sel);
   const searchInput = $('#searchInput');
   const searchClear = $('#searchClear');
   const videoList = $('#videoList');
   const videoCount = $('#videoCount');
   const filterHint = $('#filterHint');
-  const emptyState = $('#emptyState');
-  const fabBtn = $('#fabBtn');
-  const modalOverlay = $('#modalOverlay');
-  const modalSheet = $('#modalSheet');
-  const videoUrl = $('#videoUrl');
-  const videoTitle = $('#videoTitle');
-  const tagInput = $('#tagInput');
-  const tagInputWrap = $('#tagInputWrap');
-  const saveBtn = $('#saveBtn');
-  const toast = $('#toast');
 
-  // ── Load ──
-  function loadVideos() {
+  // ── Load data from JSON ──
+  async function loadVideos() {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      videos = raw ? JSON.parse(raw) : [];
-    } catch(e) {
-      videos = [];
+      const resp = await fetch(DATA_URL, { cache: 'no-cache' });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await resp.json();
+      if (!Array.isArray(data)) throw new Error('数据格式错误：应为数组');
+      videos = data;
+      render();
+    } catch (err) {
+      videoList.innerHTML = `
+        <div class="state-message">
+          <div class="icon">⚠️</div>
+          <div class="title">加载失败</div>
+          <div class="desc">无法读取 data.json，请检查文件是否存在且格式正确</div>
+        </div>`;
+      console.error('加载数据失败:', err);
+      videoCount.textContent = '0';
     }
-  }
-
-  function saveVideos() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(videos));
-  }
-
-  // ── Toast ──
-  let toastTimer;
-  function showToast(msg) {
-    clearTimeout(toastTimer);
-    toast.textContent = msg;
-    toast.classList.add('show');
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
   }
 
   // ── Render ──
@@ -657,26 +419,31 @@ body {
       filterHint.textContent = '';
     }
 
+    videoList.querySelectorAll('.video-card, .skeleton-card, .state-message').forEach(c => c.remove());
+
     if (videos.length === 0) {
-      emptyState.style.display = 'block';
-      videoList.querySelectorAll('.video-card').forEach(c => c.remove());
+      videoList.innerHTML = `
+        <div class="state-message">
+          <div class="icon">📋</div>
+          <div class="title">还没有收藏视频</div>
+          <div class="desc">编辑 HTML 文件中的 EMBEDDED_DATA 数据块添加视频</div>
+        </div>`;
       return;
     }
 
-    emptyState.style.display = filtered.length === 0 ? 'block' : 'none';
-
-    // Remove old cards
-    videoList.querySelectorAll('.video-card').forEach(c => c.remove());
-
-    if (filtered.length === 0 && videos.length > 0) {
-      const div = document.createElement('div');
-      div.className = 'empty-state';
-      div.innerHTML = '<div class="icon">🔍</div><div class="title">没有匹配的视频</div><div class="desc">试试其他关键词</div>';
-      videoList.appendChild(div);
+    if (filtered.length === 0) {
+      videoList.innerHTML = `
+        <div class="state-message">
+          <div class="icon">🔍</div>
+          <div class="title">没有匹配的视频</div>
+          <div class="desc">试试其他关键词</div>
+        </div>`;
       return;
     }
 
-    filtered.forEach((v, i) => {
+    const fragment = document.createDocumentFragment();
+
+    filtered.forEach(v => {
       const card = document.createElement('div');
       card.className = 'video-card';
       card.innerHTML = `
@@ -685,126 +452,20 @@ body {
           <div class="video-title">${escapeHtml(v.title || '未命名视频')}</div>
           <div class="video-tags">${renderTags(v.tags, searchTerms)}</div>
           <div class="video-meta">
-            <span>📅 ${formatDate(v.createdAt)}</span>
+            <span>📅 ${escapeHtml(v.date || '')}</span>
           </div>
-        </div>
-        <button class="video-delete" data-index="${i}">🗑</button>
-      `;
+        </div>`;
 
-      card.addEventListener('click', (e) => {
-        if (e.target.closest('.video-delete')) return;
-        openDouyin(v.url);
-      });
-
-      card.querySelector('.video-delete').addEventListener('click', (e) => {
-        e.stopPropagation();
-        deleteVideo(v.id);
-      });
-
-      videoList.appendChild(card);
+      card.addEventListener('click', () => openDouyin(v.url));
+      fragment.appendChild(card);
     });
+
+    videoList.appendChild(fragment);
   }
 
-  function formatDate(ts) {
-    const d = new Date(ts);
-    const now = new Date();
-    const diff = now - d;
-    if (diff < 86400000) return '今天';
-    if (diff < 172800000) return '昨天';
-    return `${d.getMonth()+1}/${d.getDate()}`;
-  }
-
-  // ── Open Douyin ──
   function openDouyin(url) {
     if (!url) return;
-    // Just open the link - on mobile this will prompt to open in Douyin app
     window.open(url, '_blank');
-  }
-
-  // ── Delete ──
-  function deleteVideo(id) {
-    if (!confirm('确定删除这个视频吗？')) return;
-    videos = videos.filter(v => v.id !== id);
-    saveVideos();
-    render();
-    showToast('已删除');
-  }
-
-  // ── Modal ──
-  function openModal() {
-    currentTags = [];
-    videoUrl.value = '';
-    videoTitle.value = '';
-    tagInput.value = '';
-    renderTagChips();
-    modalOverlay.style.display = 'flex';
-    modalSheet.classList.remove('closing');
-    modalOverlay.classList.remove('closing');
-    setTimeout(() => videoTitle.focus(), 350);
-  }
-
-  function closeModal() {
-    modalSheet.classList.add('closing');
-    modalOverlay.classList.add('closing');
-    setTimeout(() => {
-      modalOverlay.style.display = 'none';
-      modalSheet.classList.remove('closing');
-      modalOverlay.classList.remove('closing');
-    }, 250);
-  }
-
-  function renderTagChips() {
-    // Remove existing chips
-    tagInputWrap.querySelectorAll('.tag-chip').forEach(c => c.remove());
-
-    currentTags.forEach((tag, i) => {
-      const chip = document.createElement('span');
-      chip.className = 'tag-chip';
-      chip.innerHTML = `${escapeHtml(tag)}<span class="remove" data-idx="${i}">×</span>`;
-      chip.querySelector('.remove').addEventListener('click', () => {
-        currentTags.splice(i, 1);
-        renderTagChips();
-      });
-      tagInputWrap.insertBefore(chip, tagInput);
-    });
-  }
-
-  function addTag() {
-    const val = tagInput.value.trim();
-    if (!val) return;
-    if (currentTags.includes(val)) {
-      tagInput.value = '';
-      return;
-    }
-    currentTags.push(val);
-    tagInput.value = '';
-    renderTagChips();
-  }
-
-  function saveVideo() {
-    const url = videoUrl.value.trim();
-    const title = videoTitle.value.trim();
-
-    if (!url) { showToast('请粘贴视频链接'); return; }
-    if (!title) { showToast('请输入菜名或标题'); return; }
-
-    // Basic URL validation
-    if (!url.includes('douyin.com') && !url.includes('tiktok.com')) {
-      // Allow any URL, but warn
-    }
-
-    videos.unshift({
-      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-      url,
-      title,
-      tags: [...currentTags],
-      createdAt: Date.now()
-    });
-
-    saveVideos();
-    closeModal();
-    render();
-    showToast('已保存 ✅');
   }
 
   // ── Events ──
@@ -822,26 +483,6 @@ body {
     searchInput.focus();
   });
 
-  fabBtn.addEventListener('click', openModal);
-
-  modalOverlay.addEventListener('click', (e) => {
-    if (e.target === modalOverlay) closeModal();
-  });
-
-  tagInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      addTag();
-    }
-  });
-
-  tagInputWrap.addEventListener('click', (e) => {
-    if (e.target === tagInputWrap) tagInput.focus();
-  });
-
-  saveBtn.addEventListener('click', saveVideo);
-
-  // ── Keyboard shortcuts ──
   document.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();
@@ -851,9 +492,7 @@ body {
 
   // ── Init ──
   loadVideos();
-  render();
 
-  // Auto-focus search on desktop
   if (window.innerWidth > 600) {
     setTimeout(() => searchInput.focus(), 100);
   }
